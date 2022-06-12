@@ -5,7 +5,8 @@
 
 ***npm install***
 
-###for compile***
+### for compile:
 
-***npm run package -- --platform=win32***
-***npm run package -- --platform=linux --arch=x64***
+#### npm install -g electron-forge
+#### npm run package -- --platform=win32
+#### npm run package -- --platform=linux --arch=x64
