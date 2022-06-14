@@ -14,9 +14,10 @@ const openWindow = () => {
         },
     } );
 
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     // load `index.html` file
+    win.setMenuBarVisibility(false)
     win.loadFile( path.resolve( __dirname, 'render/html/index.html' ) );
 
     /*-----*/

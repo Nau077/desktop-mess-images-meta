@@ -21,6 +21,7 @@ body {
     .app__uploader--activate {
       opacity: 0.5; }
     .app__uploader__icon-area {
+      background-color: #E0E2E5;
       flex: 1 1 auto;
       display: flex;
       flex-direction: column;

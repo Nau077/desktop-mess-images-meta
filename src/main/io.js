@@ -1,3 +1,4 @@
+const {shell} = require('electron');
 const crypto = require("crypto");
 const path = require( 'path' );
 const fs = require( 'fs-extra' );
@@ -27,6 +28,10 @@ if (folderPath) {
 /****************************/
 
 exports.getPath = (path) => {
+    if (path) {
+        return null;
+    };
+
     filePathForChangedMeta = path;
 
     store.set('path', {path});
@@ -36,7 +41,6 @@ exports.getPath = (path) => {
 
 
 exports.getFilesWithChangedMeta = () => {
-  console.log(filePathForChangedMeta);
 
   const files = fs.readdirSync( appDir );
   
@@ -134,7 +138,6 @@ exports.getFilesWithChangedMeta = () => {
     // Save the new photo to a file
     let fileBuffer = Buffer.from(newPhotoData, 'binary');
     fs.writeFileSync(`${filename2}`, fileBuffer);
- 
     
     return {
         name: filename,
@@ -166,7 +169,6 @@ exports.getFiles = () => {
 };
 
 /****************************/
-
 
 
 // add files
@@ -214,8 +216,15 @@ exports.openFolder = (path) => {
 
     // open a file using default application
     if( fs.existsSync( path ) ) {
-        open(path)
+       // open(path)
+       shell.openItem(path)
+
+       return;
     }
+
+    console.log("cant view path " + path)
+
+
 }
 
 /*-----*/

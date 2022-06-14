@@ -76,6 +76,10 @@ exports.displayFiles = ( files = [] ) => {
 };
 
 const displayPath = (path) => {
+
+    if (!path) {
+        return;
+    }
  
     const buttonArea = document.querySelector('.app__uploader__button-area');
 
