@@ -27,16 +27,28 @@ if (folderPath) {
 
 /****************************/
 
-exports.getPath = (path) => {
-    if (path) {
+exports.getPath = () => {
+    const store = new Store();
+
+    const folderPath = store.get('path')
+
+    if (!folderPath) {
         return null;
+    };
+
+    filePathForChangedMeta = folderPath.path;;
+
+    return filePathForChangedMeta;
+}
+
+exports.setPath = (path) => {
+    if (!path) {
+        return;
     };
 
     filePathForChangedMeta = path;
 
     store.set('path', {path});
-
-    return path;
 }
 
 
@@ -51,10 +63,9 @@ exports.getFilesWithChangedMeta = () => {
     const fileStats = fs.statSync( filePath );
  
     const filename2 = filePathForChangedMeta + "/" + filename.replace('.', "") + "-" + "new.jpg";
-    console.log(filename2);
 
     const getBase64DataFromJpegFile = name => fs.readFileSync(name).toString('binary');
-
+    // log meta current info
     //  debug exif
     //  const getExifFromJpegFile = name => piexif.load(getBase64DataFromJpegFile(name));
     //  const exif = getExifFromJpegFile(filePath);
@@ -129,7 +140,7 @@ exports.getFilesWithChangedMeta = () => {
 
     gpsWrite[piexif.GPSIFD.GPSDateStamp] = generateRandomDOB();
 
-    const exifObj = {   "0th":zerothWrite, "Exif":exifWrite, "GPS":gpsWrite, "thumbnail": crypto.randomBytes(50).toString('hex')};
+    const exifObj = { "0th":zerothWrite, "Exif":exifWrite, "GPS":gpsWrite, "thumbnail": crypto.randomBytes(50).toString('hex')};
 
     const newExifBinary = piexif.dump(exifObj);
     const newImageData = getBase64DataFromJpegFile(filePath);

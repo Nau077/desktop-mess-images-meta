@@ -53,7 +53,7 @@ window.changeMeta = () => {
 }
 
 window.getPath = () => {
-    ipcRenderer.invoke( 'app:get-path' ).then( ( path) => {
+    ipcRenderer.invoke( 'app:get-path' ).then( (path) => {
         dom.displayPath( path );
     } );
 

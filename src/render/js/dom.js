@@ -42,7 +42,7 @@ window.openFolder = async function (path) {
 exports.initPath = () => {
     const store = new Store();
 
-    const path = store.get('path')
+    const path = store.get('path');
 
     if (path) {
         displayPath(path.path);
@@ -76,7 +76,6 @@ exports.displayFiles = ( files = [] ) => {
 };
 
 const displayPath = (path) => {
-
     if (!path) {
         return;
     }

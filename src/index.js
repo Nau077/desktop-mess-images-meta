@@ -33,6 +33,8 @@ app.on( 'ready', () => {
     io.watchFiles( win );
 
 
+    io.getPath()
+
     Store.initRenderer();
 } );
 
@@ -58,13 +60,20 @@ ipcMain.handle('app:get-path', () => {
         properties: ['openDirectory']
     } );
 
-
     if (path && path.length) {
-        return io.getPath(path[0]);
+        io.setPath(path[0]);
+        
+        return path[0];
     };
 
     return;
 })
+
+ipcMain.handle('app:get-path-first-time', () => {
+
+    return io.getPath(path[0]);
+})
+    
     
 
 ipcMain.handle('app:change-meta', () => {
