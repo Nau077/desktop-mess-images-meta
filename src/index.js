@@ -13,8 +13,8 @@ const openWindow = () => {
             nodeIntegration: true,
         },
     } );
-
-    win.webContents.openDevTools();
+    // block / unblock devtools
+    // win.webContents.openDevTools();
 
     // load `index.html` file
     win.setMenuBarVisibility(false)
