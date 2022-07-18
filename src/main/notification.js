@@ -18,3 +18,13 @@ exports.filesMetaChanged = ( size ) => {
 
     notif.show();
 };
+
+exports.fileIsNotJpg = (msg ) => {
+    const notif = new Notification( {
+        title: 'File is not jpg',
+        body: msg
+    } );
+
+    notif.show();
+};
+

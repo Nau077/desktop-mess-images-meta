@@ -53,20 +53,25 @@ exports.setPath = (path) => {
 
 
 exports.getFilesWithChangedMeta = () => {
-
+  const JPG = ".jpg";
   const files = fs.readdirSync( appDir );
-  
+  path.extname('index.html')
 
-  files.map( filename => {
+  const result = files.every( filename => {
     const filePath = path.resolve( appDir, filename );
- 
-    const fileStats = fs.statSync( filePath );
- 
-    const filename2 = filePathForChangedMeta + "/" + filename.replace('.', "") + "-" + "new.jpg";
 
+    if (path.extname(filename) !== JPG) {
+        console.error("file is not jpg: " + filename)
+        notification.fileIsNotJpg( filename );
+
+        return false;
+    };
+    
+    const filename2 = filePathForChangedMeta + "/" + filename.replace('.', "") + "-" + "new.jpg";
     const getBase64DataFromJpegFile = name => fs.readFileSync(name).toString('binary');
-    // log meta current info
+
     //  debug exif
+    //  const fileStats = fs.statSync( filePath );
     //  const getExifFromJpegFile = name => piexif.load(getBase64DataFromJpegFile(name));
     //  const exif = getExifFromJpegFile(filePath);
     //  console.log(debugExif(exif))
@@ -91,7 +96,7 @@ exports.getFilesWithChangedMeta = () => {
         };
         
         exifWrite[piexif.ExifIFD[tag]] =  [...Buffer.from(randomWords(), 'ucs2')];
-    })
+    });
 
 
     gpsTags.forEach(tag => {
@@ -101,7 +106,7 @@ exports.getFilesWithChangedMeta = () => {
         };
         
         gpsWrite[piexif.GPSIFD[tag]] =  [...Buffer.from(randomWords(), 'ucs2')];
-    })
+    });
 
     zerothWrite[piexif.ImageIFD.XPTitle]   = [...Buffer.from(randomWords(), 'ucs2')];
     zerothWrite[piexif.ImageIFD.XPComment] = [...Buffer.from(randomWords(), 'ucs2')];
@@ -150,17 +155,17 @@ exports.getFilesWithChangedMeta = () => {
     let fileBuffer = Buffer.from(newPhotoData, 'binary');
     fs.writeFileSync(`${filename2}`, fileBuffer);
     
-    return {
-        name: filename,
-        path: filePath,
-        fileStats, 
-        size: Number( fileStats.size / 1000 ).toFixed( 1 ), // kb
-    };
+    return true;
     } );
 
-    notification.filesMetaChanged( files.length );
 
-}
+    if (!result) {
+        console.error(result)
+        return;
+    };
+
+    notification.filesMetaChanged( files.length );
+};
 
 // get the list of files
 exports.getFiles = () => {
@@ -223,20 +228,26 @@ exports.openFile = ( filename ) => {
     }
 };
 
-exports.openFolder = (path) => {
-
+exports.openFolder = () => {
     // open a file using default application
-    if( fs.existsSync( path ) ) {
+
+    const store = new Store();
+
+    const folderPath = store.get('path')
+
+    if (!folderPath.path) {
+        return;
+    };
+
+    if ( fs.existsSync( folderPath.path ) ) {
        // open(path)
-       shell.openItem(path)
+       shell.openItem(folderPath.path)
 
        return;
     }
 
-    console.log("cant view path " + path)
-
-
-}
+    console.log("cant view path " + folderPath)
+};
 
 /*-----*/
 

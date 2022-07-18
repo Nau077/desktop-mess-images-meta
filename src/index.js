@@ -96,6 +96,10 @@ ipcMain.handle( 'app:on-fs-dialog-open', ( event ) => {
         properties: [ 'openFile', 'multiSelections' ],
     } );
 
+    if (!files.length) {
+        return;
+    };
+
     io.addFiles( files.map( filepath => {
         return {
             name: path.parse( filepath ).base,
@@ -117,8 +121,9 @@ ipcMain.on( 'app:on-file-open', ( event, file ) => {
 } );
 
 // listen to folder open event
-ipcMain.on( 'app:on-folder-open', ( event, { path }) => {
-    io.openFolder( path );
+ipcMain.on( 'app:on-folder-open', ( event ) => {
+
+    io.openFolder(  );
 } );
 
 // listen to file copy event

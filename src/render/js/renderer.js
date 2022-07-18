@@ -50,7 +50,7 @@ window.changeMeta = () => {
             // dom.displayFiles( files );
         } );
  
-}
+};
 
 window.getPath = () => {
     ipcRenderer.invoke( 'app:get-path' ).then( (path) => {

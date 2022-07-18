@@ -34,9 +34,10 @@ window.openFile = function ( itemId ) {
     ipcRenderer.send( 'app:on-file-open', { id: itemId, filepath } );
 };
 
-window.openFolder = async function (path) {
+window.openFolder = function () {
+    
     // send event to the main thread
-    ipcRenderer.send( 'app:on-folder-open', { path });    
+    ipcRenderer.send( 'app:on-folder-open');    
 };
 
 exports.initPath = () => {
@@ -78,8 +79,8 @@ exports.displayFiles = ( files = [] ) => {
 const displayPath = (path) => {
     if (!path) {
         return;
-    }
- 
+    };
+    
     const buttonArea = document.querySelector('.app__uploader__button-area');
 
     buttonArea.innerHTML = `
